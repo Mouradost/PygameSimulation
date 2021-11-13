@@ -4,7 +4,7 @@ This is an ensemble of scripts using PyGame.
 
 ## List of simulations
 
-- [Covid-19](/Game.py) : is a basic simulation for Covid-19 contagion.
+- [Covid-19](/CovidSimulation.py) : is a basic simulation for Covid-19 contagion.
   ![Covid-19 simulation](/Doc/Covid_sim.png)
   ![Covid-19 results](/Doc/Covid_results.png)
 
