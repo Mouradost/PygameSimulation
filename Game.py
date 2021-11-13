@@ -84,7 +84,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode(SIZE)
     clock = pygame.time.Clock()
-    pygame.display.set_caption("Simulation")
+    pygame.display.set_caption("Eat me")
 
     # Player
     player = pygame.sprite.GroupSingle()
