@@ -11,8 +11,7 @@ import sys
 SIZE = WIDTH, HIGHT = 1080, 720
 BLACK, WHITE, RED, GREEN, BLUE, GREY = (
     0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255), (100, 100, 100)
-BLOB_SIZE, PLAYER_SIZE = 10, 20
-VELOCITY = 1
+BLOB_SIZE, VELOCITY = 10, 1
 
 
 class Blob(pygame.sprite.Sprite):
