@@ -89,11 +89,11 @@ class Simulation:
         self.simulation_time = simulation_time * self.FPS
 
         self.history = {
-            "Day": [],
-            "Healthy": [],
-            "Suspected": [],
-            "Infected": [],
-            "Recovered": []
+            "Day": [0],
+            "Healthy": [self.initial_healthy],
+            "Suspected": [self.initial_suspected],
+            "Infected": [self.initial_infected],
+            "Recovered": [0]
         }
 
         # Setting up Pygame
@@ -136,6 +136,8 @@ class Simulation:
         pygame.draw.rect(self.screen, GREY, pygame.Rect(
             0, self.hight, self.width, self.stat_size), 2)
 
+        self.show_bar()
+
         pygame.draw.rect(self.screen, WHITE, pygame.Rect(
             220, self.hight + (self.stat_size // 16), BLOB_SIZE * 10, BLOB_SIZE))
         pygame.draw.rect(self.screen, BLUE, pygame.Rect(
@@ -149,6 +151,28 @@ class Simulation:
         self.infected.draw(self.screen)
         self.suspected.draw(self.screen)
         self.recovered.draw(self.screen)
+
+    def show_bar(self):
+        bar_length = self.width - 100
+        ratio = self.population_size / bar_length
+        healthy_bar = pygame.Rect(
+            50, self.hight + self.stat_size - 20, self.history["Healthy"][-1] // ratio, 15)
+        pygame.draw.rect(self.screen, WHITE, healthy_bar)
+
+        infected_bar = pygame.Rect(
+            healthy_bar.right, self.hight + self.stat_size - 20, self.history["Infected"][-1] // ratio, 15)
+        pygame.draw.rect(self.screen, RED, infected_bar)
+
+        suspected_bar = pygame.Rect(
+            infected_bar.right, self.hight + self.stat_size - 20, self.history["Suspected"][-1] // ratio, 15)
+        pygame.draw.rect(self.screen, BLUE, suspected_bar)
+
+        recovered_bar = pygame.Rect(
+            suspected_bar.right, self.hight + self.stat_size - 20, self.history["Recovered"][-1] // ratio, 15)
+        pygame.draw.rect(self.screen, GREEN, recovered_bar)
+
+        pygame.draw.rect(self.screen, GREY, pygame.Rect(
+            50, self.hight + self.stat_size - 20, bar_length, 15), 2)
 
     def show_text(self, surface, position, background=BLACK):
         rect = surface.get_rect(center=position)
@@ -195,8 +219,17 @@ class Simulation:
             f"{f'{len(self.recovered) / (self.population_size + len(self.healthy)):.1%}':^28}",
             True, WHITE
         )
-        self.show_text(stat_surface, (self.width // 2,
-                       self.hight + self.stat_size - 50))
+        self.show_text(
+            stat_surface,
+            (self.width // 2, self.hight + self.stat_size - 50))
+
+    def show_graph(self):
+        df = pd.DataFrame(self.history)
+        df.groupby("Day").mean().plot()
+        plt.title("Overview of the simulation")
+        plt.grid(True)
+        plt.style.use("ggplot")
+        plt.show()
 
     def start(self):
         # Initialize the simulation
@@ -232,14 +265,6 @@ class Simulation:
         pygame.quit()
         self.show_graph()
         sys.exit()
-
-    def show_graph(self):
-        df = pd.DataFrame(self.history)
-        df.groupby("Day").mean().plot()
-        plt.title("Overview of the simulation")
-        plt.grid(True)
-        plt.style.use("ggplot")
-        plt.show()
 
 
 if __name__ == '__main__':
