@@ -20,6 +20,16 @@ This is an ensemble of scripts using PyGame.
   ![Covid-19 simulation](/Doc/AdvanceCovid_sim.png)
   ![Covid-19 results](/Doc/AdvanceCovid_results.png)
 
+- [Dum AI](/SimAI.py) : is an simple AI simulation.
+
+  - Choose a random action.
+  - Change it action based on the time spend without reward.
+  - Keep taking the same action while getting reward.
+  - The time spend without depends on its' tolerance.
+
+  ![AI simulation](/Doc/SimAI.png)
+  ![AI results](/Doc/ResultAI.png)
+
 ## List of games
 
 - [Eat me](/Game.py) : is a game where you use your mouse to eat the blobs.

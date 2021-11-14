@@ -56,6 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.center = [x, y]
+        self.score = 0
 
     def move(self, x, y):
         if self.rect.midright[0] + x < WIDTH and self.rect.midleft[0] + x > 0:
@@ -85,6 +86,7 @@ def main():
     screen = pygame.display.set_mode(SIZE)
     clock = pygame.time.Clock()
     pygame.display.set_caption("Eat me")
+    font = pygame.font.SysFont("timesnewroman", 22)
 
     # Player
     player = pygame.sprite.GroupSingle()
@@ -106,13 +108,18 @@ def main():
         player.update()
 
         # Check for collision
-        pygame.sprite.spritecollide(
-            player.sprite, blobs, True)
+        for _ in pygame.sprite.spritecollide(
+                player.sprite, blobs, True):
+            player.sprite.score += 1
 
         # Drawing to the screen
         screen.fill(BLACK)
         blobs.draw(screen)
         player.draw(screen)
+        surface = font.render(f"Score: {player.sprite.score}", True, WHITE)
+        rect = surface.get_rect(center=(WIDTH // 2, 20))
+        pygame.draw.rect(screen, BLACK, rect)
+        screen.blit(surface, rect)
 
         pygame.display.update()
         clock.tick(60)
